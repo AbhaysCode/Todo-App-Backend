@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 const todoSchema = new mongoose.Schema({
-    id:{
-        type:String,
-        required:true
-    },
     category: {
         type:String,
         required:true

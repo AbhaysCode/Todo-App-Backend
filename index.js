@@ -1,10 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const port = 3000; 
 const router = require('./routes/todo');
+const authRoutes = require('./routes/auth');
+const bodyparser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
 
-mongoose.connect("mongodb+srv://@todoappbackend.hpoua42.mongodb.net/?retryWrites=true&w=majority",{
+mongoose.connect(process.env.DATABASE,{
   useNewUrlParser: true
 })
 
@@ -14,9 +17,14 @@ mongoose.connection.once('open',function(){
   console.log('Error', err);
 })
 
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
+app.use(cors());
+
 app.use('/todo',router);
+app.use('/user',authRoutes);
 
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 });
